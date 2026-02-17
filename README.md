@@ -101,7 +101,7 @@ This project includes GitHub Actions for automatic deployment:
 1. Push to a GitHub repository
 2. Enable Pages with "GitHub Actions" source
 3. Every push to `main` automatically deploys your game
-4. Live at: `https://your-username.github.io/Cards-game/`
+4. Live at: `https://your-username.github.io/cards-pair-up/`
 
 ## 📄 License
 

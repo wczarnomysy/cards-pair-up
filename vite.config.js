@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/Cards-game/' : '/',
+  base: '/cards-pair-up/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
