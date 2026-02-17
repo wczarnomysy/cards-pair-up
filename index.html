@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Cards Pair Up - A fun memory card matching game. Match all pairs before running out of tries!"
+    />
+    <meta name="keywords" content="memory game, card game, matching game, brain training" />
+    <meta name="author" content="Cards Pair Up Team" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Cards Pair Up - Memory Card Game" />
+    <meta
+      property="og:description"
+      content="Test your memory! Match all card pairs before running out of tries."
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Cards Pair Up - Memory Card Game</title>
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Cards Pair Up</h1>
+      <div class="stats">
+        <div class="stat-item">
+          <span
+            >Matches: <span id="matches" class="stat-value">0</span>/<span
+              id="total-matches"
+              class="stat-value"
+              >8</span
+            ></span
+          >
+        </div>
+        <div class="stat-item">
+          <span>Tries Left: <span id="tries" class="stat-value">4</span></span>
+        </div>
+        <button id="reset-btn" aria-label="Restart the game">Restart Game</button>
+      </div>
+      <div class="game-grid" id="game-grid" role="region" aria-label="Game board"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

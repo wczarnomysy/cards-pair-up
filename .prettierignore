@@ -1,0 +1,17 @@
+# Build outputs
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Cache directories
+.vite/
+coverage/
+
+# Config files (keep original formatting)
+package.json
+package-lock.json
+
+# Generated files
+*.log
