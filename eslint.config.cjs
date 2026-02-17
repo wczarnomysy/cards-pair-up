@@ -5,7 +5,7 @@ const globals = require('globals');
 module.exports = [
   // Base recommended rules for all files
   eslintJs.configs.recommended,
-  
+
   {
     files: ['**/*.js'],
     languageOptions: {
