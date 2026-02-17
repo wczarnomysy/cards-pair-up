@@ -1,16 +1,16 @@
 # 🎮 Cards Pair Up
 
-A modern, accessible memory card matching game built with TypeScript and Vite. Match all 8 fantasy-themed card pairs with only 4 tries in this responsive, keyboard-friendly game.
+A modern, accessible memory card matching game built with TypeScript and Vite. Match all 8 fantasy-themed card pairs with only 6 tries in this responsive, keyboard-friendly game.
 
 ## 🎯 Features
 
 - **8 Unique Card Pairs** - Fantasy-themed FontAwesome icons
-- **4 Tries Challenge** - Strategic gameplay with limited mistakes
+- **6 Tries Challenge** - Strategic gameplay with limited mistakes
 - **Fully Responsive** - Works on desktop, tablet, and mobile
 - **Keyboard Accessible** - WCAG compliant with full keyboard navigation
 - **Smooth Animations** - Polished card flip effects and transitions
 - **Type-Safe** - Built with TypeScript strict mode
-- **Fully Tested** - 46 tests with comprehensive coverage
+- **Fully Tested** - Test Suites with comprehensive coverage
 
 ## 🚀 Getting Started
 
@@ -52,7 +52,7 @@ The game includes comprehensive test coverage:
 - **Utilities** - Card generation and game state management
 
 ```bash
-# Run all 46 tests
+# Run all tests
 npm test
 
 # Watch mode for development
@@ -90,7 +90,7 @@ src/
 1. Click any card to flip it and reveal the icon
 2. Find matching pairs by flipping two cards at a time
 3. Matched pairs stay flipped - mismatches flip back
-4. Match all 8 pairs before running out of 4 tries to win!
+4. Match all 8 pairs before running out of 6 tries to win!
 
 ## 🚀 Deployment
 
