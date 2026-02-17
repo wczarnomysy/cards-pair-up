@@ -1,4 +1,5 @@
 import './style.css';
+import { MODAL_ANIMATION_MS } from './constants';
 
 /**
  * Configuration for modal dialogs
@@ -123,7 +124,7 @@ export class Modal {
         }
         this.modalElement = null;
         this.overlayElement = null;
-      }, 300);
+      }, MODAL_ANIMATION_MS);
     }
   }
 

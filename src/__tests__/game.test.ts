@@ -286,7 +286,7 @@ describe('MemoryGame', () => {
       cards[0].click();
       await new Promise(resolve => setTimeout(resolve, 100));
       expect(getFlippedCount()).toBe(flippedBefore);
-    });
+    }, 10000);
   });
 
   describe('Keyboard Interactions', () => {

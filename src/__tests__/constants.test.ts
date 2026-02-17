@@ -25,8 +25,8 @@ describe('Constants', () => {
   });
 
   describe('Game Rules', () => {
-    it('should have MAX_TRIES set to 4', () => {
-      expect(MAX_TRIES).toBe(4);
+    it('should have MAX_TRIES set to 6', () => {
+      expect(MAX_TRIES).toBe(6);
     });
 
     it('should calculate TOTAL_PAIRS correctly', () => {

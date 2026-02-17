@@ -4,6 +4,7 @@ import {
   GAME_ICONS,
   MAX_TRIES,
   TOTAL_PAIRS,
+  CARDS_PER_TURN,
   MATCH_DELAY_MS,
   MISMATCH_DELAY_MS,
   MODAL_MESSAGES,
@@ -56,7 +57,7 @@ export class MemoryGame {
   public init(): void {
     this.matchedPairs = 0;
     this.triesLeft = MAX_TRIES;
-    this.matchesElement.textContent = '0';
+    this.matchesElement.textContent = this.matchedPairs.toString();
     this.triesElement.textContent = MAX_TRIES.toString();
     this.totalMatchesElement.textContent = TOTAL_PAIRS.toString();
     this.flippedCards = [];
@@ -123,7 +124,7 @@ export class MemoryGame {
     this.flippedCards.push(card);
     this.render();
 
-    if (this.flippedCards.length === 2) {
+    if (this.flippedCards.length === CARDS_PER_TURN) {
       this.checkMatch();
     }
   }

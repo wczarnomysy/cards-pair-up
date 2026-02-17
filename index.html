@@ -29,23 +29,22 @@
   <body>
     <div id="app">
       <header>
-        <h1>Cards Pair Up</h1>
+        <h1 id="game-title"></h1>
       </header>
 
       <section class="stats" role="region" aria-label="Game statistics">
         <div class="stat-item">
-          <span
-            >Matches: <span id="matches" class="stat-value">0</span>/<span
+          <span id="matches-label"
+            ><span id="matches" class="stat-value">0</span>/<span
               id="total-matches"
               class="stat-value"
-              >8</span
             ></span
-          >
+          ></span>
         </div>
         <div class="stat-item">
-          <span>Tries Left: <span id="tries" class="stat-value">4</span></span>
+          <span id="tries-label"><span id="tries" class="stat-value"></span></span>
         </div>
-        <button id="reset-btn" type="button" aria-label="Restart the game">Restart Game</button>
+        <button id="reset-btn" type="button" aria-label="Restart the game"></button>
       </section>
 
       <main>

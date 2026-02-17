@@ -11,11 +11,13 @@ export const GAME_ICONS: readonly string[] = [
   'fa-shield-halved',
 ] as const;
 
-export const MAX_TRIES: number = 4;
+export const MAX_TRIES: number = 6;
 export const TOTAL_PAIRS: number = GAME_ICONS.length;
+export const CARDS_PER_TURN: number = 2;
 
 export const MATCH_DELAY_MS: number = 500;
 export const MISMATCH_DELAY_MS: number = 1000;
+export const MODAL_ANIMATION_MS: number = 300;
 
 export const MODAL_MESSAGES: {
   readonly WIN: Omit<ModalConfig, 'onClose'>;
