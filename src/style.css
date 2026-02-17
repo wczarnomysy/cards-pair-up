@@ -31,9 +31,15 @@ h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 .stats {
@@ -46,8 +52,11 @@ h1 {
   background: rgba(255, 255, 255, 0.05);
   padding: 1rem 2rem;
   border-radius: 12px;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(30, 41, 59, 0.8);
 }
 
 .stat-item {
@@ -55,6 +64,9 @@ h1 {
   flex-direction: column;
   align-items: center;
   font-weight: 600;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   cursor: default;
 }
@@ -77,19 +89,52 @@ button {
   color: white;
   font-weight: bold;
   cursor: pointer;
+  -webkit-transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  -moz-transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
   transition:
     transform 0.2s,
-    box-shadow 0.2s;
+    box-shadow 0.2s,
+    background 0.2s;
   font-size: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 button:hover {
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
 }
 
 button:active {
-  transform: translateY(0);
+  -webkit-transform: translateY(1px) scale(0.98);
+  -moz-transform: translateY(1px) scale(0.98);
+  -ms-transform: translateY(1px) scale(0.98);
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.3);
+  background: linear-gradient(135deg, #5b5fcf, #9333ea);
+}
+
+/* Enhanced button feedback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  button:active {
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+    background: linear-gradient(135deg, #5b5fcf, #9333ea);
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.5);
+  }
 }
 
 .game-grid {
@@ -102,22 +147,87 @@ button:active {
 .card {
   background-color: transparent;
   aspect-ratio: 1;
+  /* Fallback for browsers without aspect-ratio support */
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
   cursor: pointer;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
   perspective: 1000px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Modern browsers with aspect-ratio support */
+@supports (aspect-ratio: 1) {
+  .card {
+    height: auto;
+    padding-bottom: 0;
+    position: static;
+  }
+}
+
+.card:active {
+  -webkit-transform: scale(0.98);
+  -moz-transform: scale(0.98);
+  -ms-transform: scale(0.98);
+  transform: scale(0.98);
+}
+
+/* Enhanced card feedback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .card:active {
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+
+  .card:active .card-inner {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
 }
 
 .card-inner {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   text-align: center;
+  -webkit-transition: transform 0.6s;
+  -moz-transition: transform 0.6s;
   transition: transform 0.6s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
 }
 
+/* For browsers without aspect-ratio support */
+@supports not (aspect-ratio: 1) {
+  .card-inner {
+    position: absolute;
+  }
+}
+
+/* For modern browsers with aspect-ratio support */
+@supports (aspect-ratio: 1) {
+  .card-inner {
+    position: relative;
+  }
+}
+
 .card.flipped .card-inner {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 
@@ -127,6 +237,7 @@ button:active {
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 12px;
   display: flex;
@@ -134,6 +245,11 @@ button:active {
   align-items: center;
   font-size: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
 }
 
 .card-front {
@@ -144,6 +260,9 @@ button:active {
 .card-back {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
   transform: rotateY(180deg);
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
 }
@@ -177,7 +296,10 @@ button:active {
   align-items: center;
   z-index: 1000;
   opacity: 0;
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
 }
 
@@ -193,14 +315,26 @@ button:active {
   width: 90%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.1);
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
   transform: scale(0.8);
   opacity: 0;
+  -webkit-transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  -moz-transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
 }
 
 .modal.active {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
   transform: scale(1);
   opacity: 1;
 }
@@ -212,15 +346,47 @@ button:active {
 .modal-icon {
   font-size: 4rem;
   margin-bottom: 1rem;
+  -webkit-animation: bounce 0.6s ease;
+  -moz-animation: bounce 0.6s ease;
   animation: bounce 0.6s ease;
+}
+
+@-webkit-keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+}
+
+@-moz-keyframes bounce {
+  0%,
+  100% {
+    -moz-transform: translateY(0);
+    transform: translateY(0);
+  }
+  50% {
+    -moz-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes bounce {
   0%,
   100% {
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
     transform: translateY(0);
   }
   50% {
+    -webkit-transform: translateY(-20px);
+    -moz-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
     transform: translateY(-20px);
   }
 }
@@ -229,8 +395,14 @@ button:active {
   font-size: 2rem;
   margin-bottom: 1rem;
   background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 .modal-message {
@@ -238,6 +410,11 @@ button:active {
   margin-bottom: 2rem;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 .modal-button {
@@ -249,17 +426,50 @@ button:active {
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
+  -webkit-transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  -moz-transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
   transition:
     transform 0.2s,
-    box-shadow 0.2s;
+    box-shadow 0.2s,
+    background 0.2s;
   box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .modal-button:hover {
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
 }
 
 .modal-button:active {
-  transform: translateY(0);
+  -webkit-transform: translateY(1px) scale(0.98);
+  -moz-transform: translateY(1px) scale(0.98);
+  -ms-transform: translateY(1px) scale(0.98);
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+  background: linear-gradient(135deg, #5b5fcf, #9333ea);
+}
+
+/* Enhanced modal button feedback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .modal-button:active {
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+    background: linear-gradient(135deg, #5b5fcf, #9333ea);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.6);
+  }
 }

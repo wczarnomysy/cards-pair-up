@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { Modal, type ModalConfig } from '../modal';
 
 describe('Modal', () => {

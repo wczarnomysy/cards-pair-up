@@ -11,22 +11,13 @@ export interface ModalConfig {
 }
 
 /**
- * Configuration for modal display
- */
-export interface ModalConfig {
-  title: string;
-  message: string;
-  icon?: string;
-  onClose?: () => void;
-}
-
-/**
  * Reusable modal component for displaying game notifications
  * Handles creation, display, and cleanup of modal dialogs
  */
 export class Modal {
   private modalElement: HTMLElement | null = null;
   private overlayElement: HTMLElement | null = null;
+  private escapeHandler: ((_e: KeyboardEvent) => void) | null = null;
 
   /**
    * Displays a modal with the given configuration
@@ -89,7 +80,7 @@ export class Modal {
     });
 
     // Close on Escape key
-    const escapeHandler = (e: KeyboardEvent) => {
+    this.escapeHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         this.hide();
         if (config.onClose) {
@@ -97,7 +88,7 @@ export class Modal {
         }
       }
     };
-    document.addEventListener('keydown', escapeHandler);
+    document.addEventListener('keydown', this.escapeHandler);
   }
 
   /**
@@ -119,6 +110,12 @@ export class Modal {
     if (this.overlayElement && this.modalElement) {
       this.modalElement.classList.remove('active');
       this.overlayElement.classList.remove('active');
+
+      // Remove escape key listener
+      if (this.escapeHandler) {
+        document.removeEventListener('keydown', this.escapeHandler);
+        this.escapeHandler = null;
+      }
 
       setTimeout(() => {
         if (this.overlayElement && this.overlayElement.parentNode) {

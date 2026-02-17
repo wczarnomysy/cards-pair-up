@@ -1,12 +1,19 @@
 // Jest setup file
-// Remove testing-library import - not needed
 
-// Mock window.requestAnimationFrame
-(globalThis as any).requestAnimationFrame = (callback: FrameRequestCallback): number => {
-  return setTimeout(callback, 0);
-};
+/**
+ * Setup global mocks for browser APIs
+ */
 
-// Mock window.cancelAnimationFrame
-(globalThis as any).cancelAnimationFrame = (id: number): void => {
-  clearTimeout(id);
-};
+// Type-safe requestAnimationFrame mock
+if (!globalThis.requestAnimationFrame) {
+  globalThis.requestAnimationFrame = (callback: FrameRequestCallback): number => {
+    return setTimeout(callback, 0) as unknown as number;
+  };
+}
+
+// Type-safe cancelAnimationFrame mock
+if (!globalThis.cancelAnimationFrame) {
+  globalThis.cancelAnimationFrame = (id: number): void => {
+    clearTimeout(id);
+  };
+}

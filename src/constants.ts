@@ -1,10 +1,5 @@
-/**
- * Game configuration constants
- */
-
 import type { ModalConfig } from './modal';
 
-// Game icons for card pairs
 export const GAME_ICONS: readonly string[] = [
   'fa-ghost',
   'fa-dragon',
@@ -16,15 +11,12 @@ export const GAME_ICONS: readonly string[] = [
   'fa-shield-halved',
 ] as const;
 
-// Game rules
 export const MAX_TRIES: number = 4;
 export const TOTAL_PAIRS: number = GAME_ICONS.length;
 
-// Timing constants (in milliseconds)
 export const MATCH_DELAY_MS: number = 500;
 export const MISMATCH_DELAY_MS: number = 1000;
 
-// Modal messages
 export const MODAL_MESSAGES: {
   readonly WIN: Omit<ModalConfig, 'onClose'>;
   readonly LOSE: Omit<ModalConfig, 'onClose'>;
@@ -41,7 +33,6 @@ export const MODAL_MESSAGES: {
   },
 } as const;
 
-// UI text
 export const UI_TEXT: {
   readonly GAME_TITLE: string;
   readonly MATCHES_LABEL: string;

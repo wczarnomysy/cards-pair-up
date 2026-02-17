@@ -11,6 +11,10 @@
     <meta name="author" content="Cards Pair Up Team" />
     <meta name="theme-color" content="#0f172a" />
 
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Cards Pair Up - Memory Card Game" />
@@ -19,14 +23,16 @@
       content="Test your memory! Match all card pairs before running out of tries."
     />
 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Cards Pair Up - Memory Card Game</title>
     <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
   </head>
   <body>
     <div id="app">
-      <h1>Cards Pair Up</h1>
-      <div class="stats">
+      <header>
+        <h1>Cards Pair Up</h1>
+      </header>
+
+      <section class="stats" role="region" aria-label="Game statistics">
         <div class="stat-item">
           <span
             >Matches: <span id="matches" class="stat-value">0</span>/<span
@@ -39,9 +45,12 @@
         <div class="stat-item">
           <span>Tries Left: <span id="tries" class="stat-value">4</span></span>
         </div>
-        <button id="reset-btn" aria-label="Restart the game">Restart Game</button>
-      </div>
-      <div class="game-grid" id="game-grid" role="region" aria-label="Game board"></div>
+        <button id="reset-btn" type="button" aria-label="Restart the game">Restart Game</button>
+      </section>
+
+      <main>
+        <div class="game-grid" id="game-grid" role="region" aria-label="Game board"></div>
+      </main>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
