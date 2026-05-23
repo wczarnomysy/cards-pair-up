@@ -9,11 +9,6 @@
     />
     <meta name="keywords" content="memory game, card game, matching game, brain training" />
     <meta name="author" content="Cards Pair Up Team" />
-    <meta name="theme-color" content="#0f172a" />
-
-    <!-- Performance optimizations -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
@@ -34,15 +29,18 @@
 
       <section class="stats" role="region" aria-label="Game statistics">
         <div class="stat-item">
-          <span id="matches-label"
-            ><span id="matches" class="stat-value">0</span>/<span
-              id="total-matches"
-              class="stat-value"
-            ></span
+          <span id="matches-label" class="stat-label"></span
+          ><span id="matches" class="stat-value">0</span>/<span
+            id="total-matches"
+            class="stat-value"
           ></span>
         </div>
         <div class="stat-item">
-          <span id="tries-label"><span id="tries" class="stat-value"></span></span>
+          <span id="tries-label" class="stat-label"></span
+          ><span id="tries" class="stat-value"></span>/<span
+            id="total-tries"
+            class="stat-value"
+          ></span>
         </div>
         <button id="reset-btn" type="button" aria-label="Restart the game"></button>
       </section>

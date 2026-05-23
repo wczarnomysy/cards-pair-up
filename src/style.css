@@ -1,17 +1,15 @@
 :root {
-  --primary-color: #6366f1;
-  --secondary-color: #a855f7;
-  --background-color: #0f172a;
-  --card-bg: #1e293b;
+  --primary-color: #4f52f8;
+  --secondary-color: #ab5df5;
+  --card-bg: #3b2d8a;
   --text-color: #f8fafc;
-  --accent-color: #22d3ee;
-  --success-color: #10b981;
-  --danger-color: #ef4444;
+  --accent-color: #c084fc;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--background-color);
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(135deg, #0f0c29 0%, #2d1654 100%);
+  background-attachment: fixed;
   color: var(--text-color);
   display: flex;
   justify-content: center;
@@ -34,7 +32,6 @@ h1 {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -49,20 +46,25 @@ h1 {
   gap: 1rem;
   margin-bottom: 2rem;
   font-size: 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(59, 45, 138, 0.8);
   padding: 1rem 2rem;
   border-radius: 12px;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  /* Fallback for browsers without backdrop-filter support */
-  background: rgba(30, 41, 59, 0.8);
+}
+
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .stats {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  gap: 0.25rem;
   font-weight: 600;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -73,6 +75,10 @@ h1 {
 
 .stat-item span {
   white-space: nowrap;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .stat-value {
@@ -253,8 +259,8 @@ button:active {
 }
 
 .card-front {
-  background: linear-gradient(135deg, var(--card-bg), #334155);
-  color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--card-bg), #2d1b58);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .card-back {
@@ -308,7 +314,7 @@ button:active {
 }
 
 .modal {
-  background: linear-gradient(135deg, var(--card-bg), #334155);
+  background: linear-gradient(135deg, var(--card-bg), #2d1b58);
   border-radius: 16px;
   padding: 2.5rem;
   max-width: 500px;

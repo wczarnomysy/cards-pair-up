@@ -1,4 +1,3 @@
-import './style.css';
 import { Modal } from './modal';
 import {
   GAME_ICONS,
@@ -35,19 +34,24 @@ export class MemoryGame {
   private matchesElement: HTMLElement;
   private triesElement: HTMLElement;
   private totalMatchesElement: HTMLElement;
+  private totalTriesElement: HTMLElement;
   private modal: Modal;
   private cardClickHandlers: Map<HTMLElement, () => void> = new Map();
+  private cardKeyHandlers: Map<HTMLElement, EventListener> = new Map();
+  private pendingTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     gridElement: HTMLElement,
     matchesElement: HTMLElement,
     triesElement: HTMLElement,
-    totalMatchesElement: HTMLElement
+    totalMatchesElement: HTMLElement,
+    totalTriesElement: HTMLElement
   ) {
     this.gridElement = gridElement;
     this.matchesElement = matchesElement;
     this.triesElement = triesElement;
     this.totalMatchesElement = totalMatchesElement;
+    this.totalTriesElement = totalTriesElement;
     this.modal = new Modal();
   }
 
@@ -55,11 +59,16 @@ export class MemoryGame {
    * Initializes or resets the game to its starting state
    */
   public init(): void {
+    if (this.pendingTimeout !== null) {
+      clearTimeout(this.pendingTimeout);
+      this.pendingTimeout = null;
+    }
     this.matchedPairs = 0;
     this.triesLeft = MAX_TRIES;
     this.matchesElement.textContent = this.matchedPairs.toString();
     this.triesElement.textContent = MAX_TRIES.toString();
     this.totalMatchesElement.textContent = TOTAL_PAIRS.toString();
+    this.totalTriesElement.textContent = MAX_TRIES.toString();
     this.flippedCards = [];
     this.isLocked = false;
     this.generateCards();
@@ -70,10 +79,18 @@ export class MemoryGame {
    * Cleanup method to remove event listeners (prevents memory leaks)
    */
   public destroy(): void {
+    if (this.pendingTimeout !== null) {
+      clearTimeout(this.pendingTimeout);
+      this.pendingTimeout = null;
+    }
     this.cardClickHandlers.forEach((handler, element) => {
       element.removeEventListener('click', handler);
     });
     this.cardClickHandlers.clear();
+    this.cardKeyHandlers.forEach((handler, element) => {
+      element.removeEventListener('keydown', handler);
+    });
+    this.cardKeyHandlers.clear();
   }
 
   /**
@@ -147,7 +164,8 @@ export class MemoryGame {
       this.render();
 
       if (this.isGameWon()) {
-        setTimeout(() => {
+        this.pendingTimeout = setTimeout(() => {
+          this.pendingTimeout = null;
           this.modal.show({
             ...MODAL_MESSAGES.WIN,
             onClose: () => this.init(),
@@ -159,7 +177,8 @@ export class MemoryGame {
       this.triesElement.textContent = this.triesLeft.toString();
 
       if (this.isGameLost()) {
-        setTimeout(() => {
+        this.pendingTimeout = setTimeout(() => {
+          this.pendingTimeout = null;
           this.modal.show({
             ...MODAL_MESSAGES.LOSE,
             onClose: () => this.init(),
@@ -167,7 +186,8 @@ export class MemoryGame {
         }, MATCH_DELAY_MS);
         this.isLocked = true;
       } else {
-        setTimeout(() => {
+        this.pendingTimeout = setTimeout(() => {
+          this.pendingTimeout = null;
           card1.isFlipped = false;
           card2.isFlipped = false;
           this.flippedCards = [];
@@ -188,6 +208,10 @@ export class MemoryGame {
       element.removeEventListener('click', handler);
     });
     this.cardClickHandlers.clear();
+    this.cardKeyHandlers.forEach((handler, element) => {
+      element.removeEventListener('keydown', handler);
+    });
+    this.cardKeyHandlers.clear();
 
     this.gridElement.innerHTML = '';
 
@@ -233,6 +257,7 @@ export class MemoryGame {
       cardElement.addEventListener('keydown', keyHandler as EventListener);
 
       this.cardClickHandlers.set(cardElement, clickHandler);
+      this.cardKeyHandlers.set(cardElement, keyHandler as EventListener);
       this.gridElement.appendChild(cardElement);
     });
   }

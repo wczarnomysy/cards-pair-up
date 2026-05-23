@@ -16,7 +16,7 @@ A modern, accessible memory card matching game built with TypeScript and Vite. M
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 22+ and npm
 
 ### Installation
 

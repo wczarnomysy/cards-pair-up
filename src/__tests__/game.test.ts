@@ -8,6 +8,7 @@ describe('MemoryGame', () => {
   let matchesElement: HTMLElement;
   let triesElement: HTMLElement;
   let totalMatchesElement: HTMLElement;
+  let totalTriesElement: HTMLElement;
 
   // Helper functions to reduce code duplication
   const getCards = (): HTMLElement[] => Array.from(gridElement.querySelectorAll('.card'));
@@ -32,6 +33,10 @@ describe('MemoryGame', () => {
     return matchIndex !== -1 ? [0, matchIndex] : null;
   };
 
+  afterEach(() => {
+    game.destroy();
+  });
+
   beforeEach(() => {
     // Setup DOM elements
     document.body.innerHTML = `
@@ -39,14 +44,22 @@ describe('MemoryGame', () => {
       <span id="matches">0</span>
       <span id="total-matches">8</span>
       <span id="tries">4</span>
+      <span id="total-tries">6</span>
     `;
 
     gridElement = document.getElementById('game-grid')!;
     matchesElement = document.getElementById('matches')!;
     triesElement = document.getElementById('tries')!;
     totalMatchesElement = document.getElementById('total-matches')!;
+    totalTriesElement = document.getElementById('total-tries')!;
 
-    game = new MemoryGame(gridElement, matchesElement, triesElement, totalMatchesElement);
+    game = new MemoryGame(
+      gridElement,
+      matchesElement,
+      triesElement,
+      totalMatchesElement,
+      totalTriesElement
+    );
   });
 
   describe('Initialization', () => {
@@ -56,6 +69,7 @@ describe('MemoryGame', () => {
       expect(matchesElement.textContent).toBe('0');
       expect(triesElement.textContent).toBe(MAX_TRIES.toString());
       expect(totalMatchesElement.textContent).toBe(TOTAL_PAIRS.toString());
+      expect(totalTriesElement.textContent).toBe(MAX_TRIES.toString());
     });
 
     it('should create correct number of cards', () => {
@@ -102,12 +116,22 @@ describe('MemoryGame', () => {
     it('should not flip more than 2 cards at once', () => {
       game.init();
 
-      const cards = getCards();
-      cards[0].click();
-      cards[1].click();
-      cards[2].click();
+      const icons = getCardIcons();
+      const pair = findNonMatchingPair(icons);
+      expect(pair).not.toBeNull();
+      const [firstIdx, secondIdx] = pair!;
 
-      expect(getFlippedCount()).toBeLessThanOrEqual(2);
+      // Click two non-matching cards — isLocked becomes true after checkMatch
+      getCards()[firstIdx].click();
+      getCards()[secondIdx].click();
+
+      expect(getFlippedCount()).toBe(2);
+
+      // A third card click should be blocked by isLocked
+      const thirdIdx = secondIdx === 2 ? 3 : 2;
+      getCards()[thirdIdx].click();
+
+      expect(getFlippedCount()).toBe(2);
     });
 
     it('should not flip already matched cards', async () => {
@@ -166,28 +190,20 @@ describe('MemoryGame', () => {
       expect(getFlippedCount()).toBeGreaterThanOrEqual(2);
     });
 
-    it('should update tries when cards do not match', async () => {
+    it('should update tries when cards do not match', () => {
       game.init();
-      const initialTries = triesElement.textContent;
 
       const icons = getCardIcons();
       const pair = findNonMatchingPair(icons);
 
-      // This test requires at least two different icons
       expect(pair).not.toBeNull();
       const [firstIdx, secondIdx] = pair!;
 
-      const cards = getCards();
-      cards[firstIdx].click();
-      cards[secondIdx].click();
+      // Re-query after each click: render() removes listeners from old elements
+      getCards()[firstIdx].click();
+      getCards()[secondIdx].click();
 
-      // Wait for state update
-      await new Promise(resolve => setTimeout(resolve, 200));
-
-      // Tries should have changed OR cards should be processing
-      const currentTries = triesElement.textContent;
-      const hasUpdated = currentTries !== initialTries || currentTries === initialTries;
-      expect(hasUpdated).toBe(true); // Either updated or still processing
+      expect(triesElement.textContent).toBe((MAX_TRIES - 1).toString());
     });
   });
 

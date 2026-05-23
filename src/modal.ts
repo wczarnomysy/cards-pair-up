@@ -1,4 +1,3 @@
-import './style.css';
 import { MODAL_ANIMATION_MS } from './constants';
 
 /**
@@ -59,34 +58,20 @@ export class Modal {
     this.overlayElement.appendChild(this.modalElement);
     document.body.appendChild(this.overlayElement);
 
-    // Add event listeners
-    const closeBtn = document.getElementById('modal-close-btn');
+    const closeBtn = this.modalElement.querySelector<HTMLElement>('#modal-close-btn');
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        this.hide();
-        if (config.onClose) {
-          config.onClose();
-        }
-      });
+      closeBtn.addEventListener('click', () => this.closeAndCallback(config.onClose));
     }
 
-    // Close on overlay click
     this.overlayElement.addEventListener('click', e => {
       if (e.target === this.overlayElement) {
-        this.hide();
-        if (config.onClose) {
-          config.onClose();
-        }
+        this.closeAndCallback(config.onClose);
       }
     });
 
-    // Close on Escape key
     this.escapeHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        this.hide();
-        if (config.onClose) {
-          config.onClose();
-        }
+        this.closeAndCallback(config.onClose);
       }
     };
     document.addEventListener('keydown', this.escapeHandler);
@@ -105,6 +90,16 @@ export class Modal {
   }
 
   /**
+   * Hides the modal and invokes the optional close callback
+   */
+  private closeAndCallback(onClose?: () => void): void {
+    this.hide();
+    if (onClose) {
+      onClose();
+    }
+  }
+
+  /**
    * Hides and removes the modal from DOM
    */
   private hide(): void {
@@ -118,12 +113,15 @@ export class Modal {
         this.escapeHandler = null;
       }
 
+      // Null references immediately to prevent re-entrance during the fade-out animation
+      const overlayToRemove = this.overlayElement;
+      this.overlayElement = null;
+      this.modalElement = null;
+
       setTimeout(() => {
-        if (this.overlayElement && this.overlayElement.parentNode) {
-          this.overlayElement.parentNode.removeChild(this.overlayElement);
+        if (overlayToRemove.parentNode) {
+          overlayToRemove.parentNode.removeChild(overlayToRemove);
         }
-        this.modalElement = null;
-        this.overlayElement = null;
       }, MODAL_ANIMATION_MS);
     }
   }
